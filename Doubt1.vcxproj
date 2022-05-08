@@ -149,6 +149,14 @@
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="input-render.cpp" />
     <ClCompile Include="s4.cpp" />
+    <ClCompile Include="s5-exercise1.cpp" />
+    <ClCompile Include="s5-triangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FragmentShader1.glsl" />
+    <None Include="VertexShader1.glsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

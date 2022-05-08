@@ -27,5 +27,19 @@
     <ClCompile Include="input-render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="s5-triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="s5-exercise1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShader1.glsl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="FragmentShader1.glsl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
