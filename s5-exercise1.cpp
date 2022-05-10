@@ -75,7 +75,7 @@ int main() {
 	int fsuccess;
 	char finfolog[512];
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fsuccess);
-	if (fsuccess) {
+	if (!fsuccess) {
 		glGetShaderInfoLog(fragmentShader, 512, NULL, finfolog);
 		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << finfolog << endl;
 	}
@@ -102,15 +102,25 @@ int main() {
 		glGetProgramInfoLog(shaderProgram, 512, NULL, pinfolog);
 		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << pinfolog << endl;
 	}
-
-	glUseProgram(shaderProgram);
-
-	// *can now delete shader objects since they can now just be referenced from program?
+	
+	// can now delete shaders after attaching them to shader program
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	// first (left) triangles' vertices
 	float vertices[] = {
+		// first triangle
+		-0.7f, -0.8f, 0.0f,
+		-0.1f, -0.8f, 0.0f,
+		-0.4f, 0.0f, 0.0f,
+
+		// second triangle
+		0.7f, -0.8f, 0.0f,
+		0.1f, -0.8f, 0.0f,
+		0.4f, 0.0f, 0.0f
+	};
+
+	// first (left) triangles' vertices
+	float vertices1[] = {
 		-0.7f, -0.8f, 0.0f, // bottom left ((-1.0f, -1.0f, 0.0f) normalized would be the very bottom left corner coordinate of render window)
 		-0.1f, -0.8f, 0.0f, // bottom right
 		-0.4f, 0.0f, 0.0f // top vertex
@@ -122,12 +132,17 @@ int main() {
 		0.6f, 0.0f, 0.0f
 	};
 
+	// To use a VAO, all you have to do is bind the VAO using glBindVertexArray.
+	// Then we should bind/configure the corresponding VBO(s) and attribute pointer(s) and then unbind the VAO for later use.
+	// When we want to draw an object, we bind the VAO with the preferred settings before drawing the object and that's it.
+	
+
 	// generate vertex array object to store state configurations (vertex attribute configurations?)
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
 
 	// bind VAO to use it
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO); // no triangle is drawn without this code; only the background for the window is drawn
 
 	// generating vertex buffer (object) to hold vertex data
 	unsigned int VBO;
@@ -139,12 +154,30 @@ int main() {
 	// add vertex data for first triangle to buffer
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+	/*
+	* @glVertexAttribPointer: function to tell OpenGL how it should interpret the vertex data(per vertex attribute)
+	*	arg 1 - specifies which vertex attribute we want to configure by its location(which we set for the position vertex attribute with layout(location = 0))
+	*	arg 2 - size of the vertex attribute(a 'vec3' composed of 3 values)
+	*	arg 3 - data type(which is GL_FLOAT - a vec * in GLSL consists of floating point values)
+	*	arg 4 - specifies if we want the data to be normalized(ex.inputting integer data types could be normalized to 0 (or -1 for signed data) and 1 when converted to float); this isn't relevant for us, so we'll leave it at GL_FALSE instead of GL_TRUE
+	*	arg 5 - the stride; tells us space between consecutive vertex attributes(since the next set of position data is exactly 3 times the size of a float away we specify that value as the stride); you could also set this to 0 to let OpenGL determine the stride when the values are tightly packed
+	*	arg 6 - offset of where position data begins in the buffer(since position data is at the start of the data array this value is just 0); has void* type, so here it needs the cast to void*
+	*/
+
 	// set and enable vertex attributes as inputs to OpenGL so it can interpret the vertices' data as intended (only a blank window is outputted without this code)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	
 
-	// use shader program when we want to render an object
-	glUseProgram(shaderProgram);
+	//// binding the second triangle's vertices to a vertex buffer, and binding it to the array buffer target
+	//unsigned int VBO2;
+	//glGenBuffers(1, &VBO2);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+
+
+	// unbinding VAO here for later use; when drawing an object, we can now just bind the VAO with the preferred settings before drawing
+	glBindVertexArray(VAO);
 
 	/* Render Loop */
 	while (!glfwWindowShouldClose(window)) {
@@ -152,12 +185,15 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // clear window with this color generated (state-setting function)
 		glClear(GL_COLOR_BUFFER_BIT); // fill color buffer with specified color to clear it (state-using function)
 
-		// using shader program when rendering
-		//glUseProgram(shaderProgram);
-		// re-binding VAO here to use the preferred settings for triangles
-		glBindVertexArray(VAO);
+		// using shader program when rendering an object (since it refers to our vertex and fragment shaders attached to it as well)
+		glUseProgram(shaderProgram); // (a white triangle is drawn without this code)
+
+		// binding the VAO we made with our preferred settings here before triangle is drawn
+		glBindVertexArray(VAO); // binding or unbinding the VAO doesn't seem to affect the window output here, why?
+		
 		// draws the primitives using currently active shader, vertex attributes, and vertex buffer's data (indirectly bound via vertex array object)
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// change size parameter to 6 to draw 6 vertices in vertices array (3 per triangle)
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		processInput(window);
 
