@@ -182,6 +182,9 @@ int main() {
 	/* Render Loop */
 	while (!glfwWindowShouldClose(window)) {
 
+		// sets primitives to be drawn in wireframe mode
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // clear window with this color generated (state-setting function)
 		glClear(GL_COLOR_BUFFER_BIT); // fill color buffer with specified color to clear it (state-using function)
 
