@@ -59,6 +59,10 @@ int main() {
 		return 1;
 	}
 
+	// set rendering window size (necessary?)
+	glViewport(0, 0, 800, 600);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
 	// setting up shaders
 	GLuint vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
