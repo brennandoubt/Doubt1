@@ -10,6 +10,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 void processInput(GLFWwindow* window) {
@@ -45,8 +46,20 @@ int main() {
 	// init GLFW
 	glfwInit();
 
+	int userw;
+	int userh;
+	//stringstream userSS;
+
+	cout << "Please type window width: ";
+	cin >> userw;
+	cout << "Please type window height: ";
+	cin >> userh;
+
+	cout << "Width given: " << userw << "\nHeight given: " << userh << endl;
+ 	
+
 	// create window
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Section 5.8, Exercise 3", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(userw, userh, "Section 5.8, Exercise 3", NULL, NULL);
 	if (window == NULL) {
 		cout << "Failed to create GLFW window." << endl;
 		return 1;
@@ -60,7 +73,7 @@ int main() {
 	}
 
 	// set rendering window size (necessary?)
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, userw, userh);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	// setting up shaders
