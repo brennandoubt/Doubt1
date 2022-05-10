@@ -33,6 +33,9 @@
     <ClCompile Include="s5-exercise1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="s5-exercise2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader1.glsl">
