@@ -151,6 +151,7 @@
     <ClCompile Include="s4.cpp" />
     <ClCompile Include="s5-exercise1.cpp" />
     <ClCompile Include="s5-exercise2.cpp" />
+    <ClCompile Include="s5-exercise3.cpp" />
     <ClCompile Include="s5-triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
