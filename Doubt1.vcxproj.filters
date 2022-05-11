@@ -39,6 +39,9 @@
     <ClCompile Include="s5-exercise3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="s5-morepractice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader1.glsl">
