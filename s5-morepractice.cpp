@@ -41,6 +41,21 @@ int main() {
 		"	FragColor = vec4(0.8f, 0.8f, 0.1f, 1.0f);\n"
 		"}\0";
 
+	const char* vertexShader2Source = "#version 330 core\n"
+		"layout (location = 0) in vec3 aPos;\n"
+		"out vec4 vertexColor;\n"
+		"void main() {\n"
+		"	gl_Position = vec4(aPos, 1.0); //we give a vec3 to vec4's constructor\n"
+		"	vertexColor = vec4(0.5, 0.0, 0.0, 1.0); //output variable to dark red\n"
+		"}\0";
+
+	const char* fragmentShader2Source = "#version 330 core\n"
+		"out vec4 FragColor;\n"
+		"in vec4 vertexColor; // input variable from vertex shader (same name aand type)\n"
+		"void main() {\n"
+		"	FragColor = vertexColor;\n"
+		"}\0";
+
 	// init GLFW
 	glfwInit();
 
@@ -77,7 +92,7 @@ int main() {
 	// setting up shaders
 	GLuint vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glShaderSource(vertexShader, 1, &vertexShader2Source, NULL);
 	glCompileShader(vertexShader);
 	int vsuccess;
 	char vinfoLog[512];
@@ -88,7 +103,7 @@ int main() {
 	}
 	GLuint fragmentShader;
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glShaderSource(fragmentShader, 1, &fragmentShader2Source, NULL);
 	glCompileShader(fragmentShader);
 	int fsuccess;
 	char finfoLog[512];

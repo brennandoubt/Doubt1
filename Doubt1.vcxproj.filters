@@ -42,6 +42,12 @@
     <ClCompile Include="s5-morepractice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="s6-shaders.glsl">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Section6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader1.glsl">

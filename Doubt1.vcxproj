@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -154,6 +154,8 @@
     <ClCompile Include="s5-exercise3.cpp" />
     <ClCompile Include="s5-morepractice.cpp" />
     <ClCompile Include="s5-triangle.cpp" />
+    <ClCompile Include="s6-shaders.glsl" />
+    <ClCompile Include="Section6.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShader1.glsl" />
