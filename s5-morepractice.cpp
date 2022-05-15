@@ -41,6 +41,15 @@ int main() {
 		"	FragColor = vec4(0.8f, 0.8f, 0.1f, 1.0f);\n"
 		"}\0";
 
+	/*
+	* For Section 6: Shaders
+	* 
+	* vertexColor object in fragment shader and vertex shader are linked since
+	* they both have the same name and type
+	* 
+	* Color set to dark red color in the vertex shader, so the resulting fragments should be dark red
+	* as well.
+	*/
 	const char* vertexShader2Source = "#version 330 core\n"
 		"layout (location = 0) in vec3 aPos;\n"
 		"out vec4 vertexColor;\n"
@@ -48,12 +57,18 @@ int main() {
 		"	gl_Position = vec4(aPos, 1.0); //we give a vec3 to vec4's constructor\n"
 		"	vertexColor = vec4(0.5, 0.0, 0.0, 1.0); //output variable to dark red\n"
 		"}\0";
-
 	const char* fragmentShader2Source = "#version 330 core\n"
 		"out vec4 FragColor;\n"
 		"in vec4 vertexColor; // input variable from vertex shader (same name aand type)\n"
 		"void main() {\n"
 		"	FragColor = vertexColor;\n"
+		"}\0";
+	// Adding uniform type to fragment shader
+	const char* fs3source = "#version 330 core\n"
+		"out vec4 FragColor;\n"
+		"uniform vec4 ourColor; // we set this variable in the OpenGL code.\n"
+		"void main() {\n"
+		"FragColor = ourColor;\n"
 		"}\0";
 
 	// init GLFW
@@ -103,7 +118,7 @@ int main() {
 	}
 	GLuint fragmentShader;
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShader2Source, NULL);
+	glShaderSource(fragmentShader, 1, &fs3source, NULL);
 	glCompileShader(fragmentShader);
 	int fsuccess;
 	char finfoLog[512];
@@ -164,11 +179,20 @@ int main() {
 	glEnableVertexAttribArray(0);
 
 	while (!glfwWindowShouldClose(window)) {
+		
+		// updating uniform color
+		float timeValue = glfwGetTime();
+		float greenValue = sin(timeValue) / 2.0f + 0.5f;
+		int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
 		glUseProgram(shaderProgram);
 
 		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
 		processInput(window);
+
+		// swap buffers and poll IO events
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
