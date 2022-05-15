@@ -154,7 +154,7 @@ int main() {
 		0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // inner down
 	};
 	
-	// index order for draeing triangles correctly (drawing a triad?)
+	// index order for drawing triangles correctly (drawing a triad?)
 	GLuint indices[] = {
 		0, 3, 5, // lower left triangle
 		3, 2, 4, // lower right triangle
